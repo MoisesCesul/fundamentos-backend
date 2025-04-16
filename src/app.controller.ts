@@ -53,6 +53,23 @@ const UpdateProductBodySchema = z.object({
 const updatebodyValidationPipe = new ZodValidationPipe(createProductBodySchema);
 type UpdateProductBodySchema = z.infer<typeof createProductBodySchema>;
 
+
+enum Status {
+  APROVADO = 'APROVADO',
+  NEGADO = 'NEGADO',
+  PENDENTE = 'PENDENTE'
+
+}
+
+const UpdateStatusProductBodySchema = z.object({
+  status: z.enum([Status.APROVADO, Status.NEGADO],{
+    message: "Status must be 'APROVDADO' OR 'NEGADO' ",
+  }),
+});
+
+const UpdateStatusProductBodyValidationPipe = new ZodValidationPipe(UpdateStatusProductBodySchema);
+type UpdateStatusProductBodySchema = z.infer<typeof createProductBodySchema>;
+
 @Controller("/products")
 export class AppController {
   
@@ -66,6 +83,7 @@ export class AppController {
    return "create";
   }
   @Get(":id")
+  @HttpCode(200)
   findById(@Param(':id') id: string){
     
     return `Produto localizado`
@@ -82,14 +100,16 @@ export class AppController {
   }
 
   @Patch(":id/status")
-  updateProducts(): string{
+  @HttpCode(204)
+  updateProducts(@Body(UpdateStatusProductBodyValidationPipe) body: UpdateStatusProductBodySchema): string{
 
     return "Produtos atualizados parcialmente!";
   }
 
   @Delete(":id")
+  @HttpCode(204)
   remove(@Param(':id') id: string){
-    return "Produto Removido"
+    return `Produto com id: ${id} removido`
   }
 
 }
