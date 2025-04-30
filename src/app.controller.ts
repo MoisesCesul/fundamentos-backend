@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Put, Query } from '@nestjs/common';
-import { string, z } from 'zod';
+import { z } from 'zod';
 import { ZodValidationPipe } from './pipes/zod-validation-pipe';
-import { create } from 'domain';
-import { promises } from 'dns';
 
-function isValidCPF(cpf: string): boolean {
+
+export function isValidCPF(cpf: string): boolean {
   cpf = cpf.replace(/[^\d]+/g, '');
 
   if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
