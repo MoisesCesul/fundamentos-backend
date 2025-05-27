@@ -1,18 +1,18 @@
 import { Body, Controller, HttpCode, Post } from "@nestjs/common";
-import { z } from 'zod';
+import {  z } from 'zod';
 import { ZodValidationPipe } from './pipes/zod-validation-pipe';
-import { isValidCPF } from "./app.controller";
+import { CreateProductService } from "./create.product.service";
+import { Category } from "@prisma/client";
 
     const createProductBodySchema = z.object({
       name: z.string().min(3),
-      model: z.string().min(3),
-      dateManufacture: z.string().date(), 
-      year: z.number(),
-      brand: z.string(),
-      email: z.string().email(),
-      cpf: z.string().regex(/^\d{11}$/ , {message:'Cpf deve conter exatamente 11 digitos Numericos'})
-      .refine(isValidCPF,{message:"CPF Invalid"})
-    
+      price: z.number().min(3),
+      description: z.string().optional(), 
+      stockAvailable: z.number(),
+      isAvailable: z.boolean(),
+      category: z.enum([Category.BIRD,Category.FOOD,Category.GAMES,Category.NON,Category.SEX_SHOP]),
+      tags: z.array(z.string())
+
     });
 
     const bodyValidationPipe = new ZodValidationPipe(createProductBodySchema);
@@ -21,13 +21,30 @@ import { isValidCPF } from "./app.controller";
 
     @Controller('/products')
     export class CreateProductController {
-        constructor(){}
+        constructor(private createProduct: CreateProductService){}
 
 
         @Post()
         @HttpCode(201)
         async handle(@Body(bodyValidationPipe) body: createProductBodySchema){
-    
+          const {
+                name,
+                price,
+                description,
+                stockAvailable,
+                isAvailable,
+                category,
+                tags,
+          } = body;
+            await this.createProduct.execute({
+              name,
+              price,
+              description,
+              stockAvailable,
+              isAvailable,
+              category,
+              tags
+            });
         }
 
 
