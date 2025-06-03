@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode } from "@nestjs/common";
-import { FetchRecentProductService } from "./fetch.recent.products.service";
+import { FetchRecentProductService } from "../services/fetch.recent.products.service";
 
 
 @Controller('/products')

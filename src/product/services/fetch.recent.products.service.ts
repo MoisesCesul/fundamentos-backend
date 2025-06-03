@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ModelsRepository } from "./models.repository";
-import { ProductsRepository } from "./products.repository";
+import { ProductsRepository } from "../repository/products.repository";
 
 @Injectable()
 export class FetchRecentProductService {

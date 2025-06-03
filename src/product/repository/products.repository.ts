@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "./prisma.service";
+import { PrismaService } from "../../prisma.service";
 import { Prisma} from "@prisma/client";
 @Injectable()
 export class ProductsRepository{
@@ -34,6 +34,14 @@ export class ProductsRepository{
         const modelo = this.prisma.product.findMany();
         return modelo
     
+    }
+
+    async DeleteById(id:string){
+        const status = this.prisma.product.delete({
+            where:{
+                id
+            }
+        })
     }
 
 
