@@ -1,7 +1,7 @@
 import { Controller, Get, HttpCode } from "@nestjs/common";
 import { FetchRecentModelService } from "./fetch.recent.models.service";
 
-@Controller('/models')
+@Controller('/models/all')
 export class FetchRecentModelController {
     constructor(private fetchRecentModels: FetchRecentModelService){}
       

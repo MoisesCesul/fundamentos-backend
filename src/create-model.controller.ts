@@ -1,7 +1,8 @@
 import {  z } from 'zod';
 import { ZodValidationPipe } from './pipes/zod-validation-pipe';
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { CreateModelsService } from './create.models.service';
+import { FetchRecentModelService } from './fetch.recent.models.service';
 
    const createModelsBodySchema = z.object({
       nome: z.string().min(3)
@@ -25,4 +26,5 @@ import { CreateModelsService } from './create.models.service';
             return data;
         }
         
+     
      }

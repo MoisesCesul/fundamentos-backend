@@ -9,11 +9,12 @@ import { ModelsRepository } from './models.repository';
 import { FetchRecentModelController } from './fetch-recent-model.controller';
 import { FetchRecentModelService } from './fetch.recent.models.service';
 import { FetchRecentProductController } from './fetch-recent-products.controller';
+import { FetchRecentProductService } from './fetch.recent.products.service';
 
 
 @Module({
   imports: [],
   controllers: [CreateProductController,CreateModelsController,FetchRecentModelController,FetchRecentProductController],
-  providers: [PrismaService, CreateProductService,ProductsRepository,CreateModelsService,ModelsRepository,FetchRecentModelService],
+  providers: [PrismaService, CreateProductService,ProductsRepository,CreateModelsService,ModelsRepository,FetchRecentModelService,FetchRecentProductService],
 })
 export class AppModule {}
