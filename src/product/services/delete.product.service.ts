@@ -2,21 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { ProductsRepository } from "../repository/products.repository";
 
 
-
-
-
-
-interface DeleteProductServiceRequest {
+interface DeleteProductsServiceRequest {
     id: string,
 }
 
 
 @Injectable()
-export class DeleteModelService {
+export class DeleteProductsService {
     constructor(private productsRepository: ProductsRepository) { }
 
-    async execute(request: DeleteProductServiceRequest){
+    async execute(request: DeleteProductsServiceRequest){
         const id = request.id;
-        const productWithSameName = await this.productsRepository.DeleteById(id);
+        const product = await this.productsRepository.deleteById(id);
+        return product;
     }
 }

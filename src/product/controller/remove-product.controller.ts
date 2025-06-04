@@ -1,24 +1,24 @@
 import { Body, Controller, Delete, HttpCode } from "@nestjs/common";
 import { z } from "zod";
-import { DeleteModelService } from "../services/delete.product.service";
+import { DeleteProductsService } from "../services/delete.product.service";
 import { ZodValidationPipe } from "src/pipes/zod-validation-pipe";
 
-   const deleteModelsBodySchema = z.object({
+   const deleteProductsBodySchema = z.object({
       id: z.string().min(36)
     });
 
- const bodyValidationPipe = new ZodValidationPipe(deleteModelsBodySchema);
-    type DeleteModelsBodySchema = z.infer<typeof deleteModelsBodySchema>;
+ const bodyValidationPipe = new ZodValidationPipe(deleteProductsBodySchema);
+    type DeleteProductsBodySchema = z.infer<typeof deleteProductsBodySchema>;
 
 
 @Controller('/products')
-export class DeleteModelController {
-    constructor(private DeletetModelService: DeleteModelService){}
+export class DeleteProductsController {
+    constructor(private deletetProductsService: DeleteProductsService){}
       
     @Delete()
     @HttpCode(204)
-    async handle(@Body(bodyValidationPipe) body: DeleteModelsBodySchema){
-        const data = await this.DeletetModelService.execute(body);
-        return data;
+    async handle(@Body(bodyValidationPipe) body: DeleteProductsBodySchema){
+        const data = await this.deletetProductsService.execute(body);
+        return null;
     }
 }
