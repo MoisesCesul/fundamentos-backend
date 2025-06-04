@@ -44,19 +44,16 @@ export class ModelsRepository {
         })
     }
 
-    async updateById(id:string,name:string): Promise<Prisma.ModeloUncheckedCreateInput | null> {
+    async updateById(data:Prisma.ModeloUncheckedCreateInput): Promise<void> {
 
-        const productFindById = await this.findById(id);
-        if (!productFindById) return null;
 
-        const updatedProduct = await this.prisma.modelo.update({
-            where: { id },
-            data: {
-                nome: name,
-            }
-        });
 
-        return updatedProduct;
+        await Promise.all([
+             this.prisma.modelo.update({
+            where: { id: data.id?.toString()},
+            data
+        }),
+        ]) 
     }
 
 }

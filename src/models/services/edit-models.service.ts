@@ -31,7 +31,7 @@ export class EditModelsService {
             id,
             nome
         }
-        const productWithSameName = await this.modelsRepository.updateById(model.id,model.nome);
+        const productWithSameName = await this.modelsRepository.updateById(model);
         if (productWithSameName != null) {
             throw new Error("Product not exists ");
         }
