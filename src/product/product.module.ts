@@ -9,10 +9,12 @@ import { DeleteProductsController } from "./controller/remove-product.controller
 import { DeleteProductsService } from "./services/delete.product.service";
 import { EditProductController } from "./controller/edit-product.controller";
 import { EditProductService } from "./services/edit-product.service";
+import { GetProductsService } from "./services/get-product-by-id.products.service";
+import { GetProductsController } from "./controller/get-product-by-id.products.controller";
 
 
 @Module({
-  controllers: [CreateProductController,FetchRecentProductController,DeleteProductsController,EditProductController],
-  providers: [CreateProductService,ProductsRepository,FetchRecentProductService,PrismaService,DeleteProductsService,EditProductService],
+  controllers: [CreateProductController,FetchRecentProductController,DeleteProductsController,EditProductController,GetProductsController],
+  providers: [CreateProductService,ProductsRepository,FetchRecentProductService,PrismaService,DeleteProductsService,EditProductService,GetProductsService],
 })
 export class ProductsModule {}
