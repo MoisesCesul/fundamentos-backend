@@ -42,6 +42,13 @@ model Modelo {
   updatedAt       DateTime? @updatedAt @map("updated_at")
 }
 
+model Profile{
+  id String @id @default(uuid())
+  avatar String? @map("avatar_url")
+    createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime? @updatedAt @map("updated_at")
+}
+
 enum Category {
   SEX_SHOP
   FOOD
@@ -49,3 +56,4 @@ enum Category {
   BIRD
   NON
 }
+
