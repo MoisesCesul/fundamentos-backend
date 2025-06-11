@@ -14,40 +14,75 @@ datasource db {
 }
 
 model Product {
-  id              String @id @default(uuid())
-  name            String @unique
-  price           Float 
-  description     String?
-  stockAvailable  Int  @map("stock_available") 
-  isAvailable     Boolean @default(true) @map("is_available")
-  category        Category @default(NON)
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime? @updatedAt @map("updated_at")
-  tags            String[]
+  id             String      @id @default(uuid())
+  name           String      @unique
+  price          Float
+  description    String?
+  stockAvailable Int         @map("stock_available")
+  isAvailable    Boolean     @default(true) @map("is_available")
+  category       Category    @default(NON)
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime?   @updatedAt @map("updated_at")
+  tags           String[]
+  OrderItem      OrderItem[]
+  models         Modelo[] @relation("product_models")
+
   @@map("products")
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
+  id      String   @id @default(uuid())
+  email   String   @unique
+  Profile Profile?
+  Order   Order[]
 
   @@map("users")
 }
 
-
 model Modelo {
-  id String @id @default(uuid())
-  nome String @unique
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime? @updatedAt @map("updated_at")
+  id        String    @id @default(uuid())
+  nome      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+
+  Product Product[] @relation("product_models")
 }
 
-model Profile{
-  id String @id @default(uuid())
-  avatar String? @map("avatar_url")
-    createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime? @updatedAt @map("updated_at")
+model Profile {
+  id        String    @id @default(uuid())
+  avatar    String?   @map("avatar_url")
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 }
+
+model Order {
+  id        String      @id @default(uuid())
+  total     Float
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime?   @updatedAt @map("updated_at")
+  OrderItem OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  orderId   String
+  productId String
+  order     Order     @relation(fields: [orderId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+  quantity  Float
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@id([orderId, productId])
+  @@map("order_items")
+}
+
 
 enum Category {
   SEX_SHOP
@@ -56,4 +91,3 @@ enum Category {
   BIRD
   NON
 }
-
